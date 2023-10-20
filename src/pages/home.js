@@ -5,7 +5,7 @@ import ProfilePic from './../Images/profile.png';
 import { Button } from '@mui/material';
 import ViolationCompile from './components/ViolationCompile';
 import Form from './components/Form';
-import axios from 'axios';
+import axios from "../plugins/axios";
 
 const Home = () => {
   // get token
@@ -17,7 +17,7 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get("https://jaydemike21.pythonanywhere.com/api/v1/accounts/users/me/", {
+      .get("accounts/users/me/", {
         headers: {
           "Authorization": `Token ${token}`
         }
@@ -30,7 +30,7 @@ const Home = () => {
       });
 
     axios
-      .get("https://jaydemike21.pythonanywhere.com/api/v1/accounts/profile/", {
+      .get("accounts/profile/", {
         headers: {
           "Authorization": `Token ${token}`
         }

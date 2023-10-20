@@ -12,7 +12,7 @@ import ID from './options/ID.json'
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import {Input, TextField} from '@material-ui/core';
 import Fine from './options/Fine.json'
-import axios from 'axios';
+import axios from '../../plugins/axios';
 import { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -188,7 +188,7 @@ function Form({props, onClick, RecordViolation}) {
 
                                     //get token 
                                     const token = localStorage.getItem('token')
-                                    axios.post('https://jaydemike21.pythonanywhere.com/api/v1/tickets/drivers/', driverInfo, {
+                                    axios.post('tickets/drivers/', driverInfo, {
                                         headers:{
                                             "Authorization": `Token ${token}`
                                         },
@@ -296,7 +296,7 @@ function Form({props, onClick, RecordViolation}) {
                                 <Button variant='contained' onClick={()=> {
                                     const token = localStorage.getItem('token')
 
-                                    axios.post('https://jaydemike21.pythonanywhere.com/api/v1/tickets/traffictickets/', ticket, {
+                                    axios.post('tickets/traffictickets/', ticket, {
                                         headers: {
                                             Authorization: `Token ${token}`
                                         },

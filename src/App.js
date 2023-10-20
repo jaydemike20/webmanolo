@@ -7,10 +7,11 @@ import Search from "./pages/search.js";
 import History from "./pages/history.js";
 import ActivationPage from "./pages/activationpage.js";
 import Login from "./login/index.js";
-import ResetPage from './pages/resetPassword.js'
+import ResetPage from './pages/resetPassword.js';
+import { useSelector } from "react-redux";
 
 function PrivateRoute({ path, element }) {
-  const isAuthenticated = false; // Replace with your authentication logic
+  const isAuthenticated = useSelector((state) => state.auth.setIsLoggedIn)
 
   if (!isAuthenticated) {
     return <Navigate to="/" replace />;
@@ -20,12 +21,14 @@ function PrivateRoute({ path, element }) {
 }
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const isAuthenticated = useSelector((state) => state.auth.setIsLoggedIn)
+
 
   return (
     <div className="app">
       <Routes>
-        <Route path="/" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="/" element={<Login setIsAuthenticated={isAuthenticated} />} />
         <Route path="/home" element={isAuthenticated ? <Home /> : <Navigate to="/" replace />} />
         <Route path="/history" element={isAuthenticated ? <History /> : <Navigate to="/" replace />} />
         <Route path="/search" element={isAuthenticated ? <Search /> : <Navigate to="/" replace />} />
