@@ -11,8 +11,14 @@ import { Button, TextField } from '@mui/material';
 import ForgotPass from './component/ForgotPass';
 import axios from '../plugins/axios'
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLogin, setToken } from './authSlice';
 
-function Login({ setIsAuthenticated }) {
+function Login() {
+
+  const dispatch = useDispatch()
+  const isAuthenticated = useSelector((state) => state.auth.setIsLoggedIn)
+
   const navigation = useNavigate()
   const [activeTab, setActiveTab] = useState('SignIn');
   const [show, setShow] = useState(false)
@@ -23,23 +29,20 @@ function Login({ setIsAuthenticated }) {
 
   // FOR LOGIN
   const [data, setData] = useState({
-    email: "",
-    password: ""
+    email: "jaydemike21@gmail.com",
+    password: "dario200"
   })
 
   const handleLogin = () => {
-    axios.post("accounts/token/login", data).then(response => {
+    axios.post("accounts/token/login/", data).then((response) => {
       // saving profile info in redux
-      // dispatch(setToken(response.data.auth_token))
-      // dispatch(setLogin());
-
       localStorage.setItem('token', response.data.auth_token)
-      console.log(data)
-      setIsAuthenticated(true)      
-      navigation("/home")
+      dispatch(setLogin());
+      navigation('/home')
 
-    }).catch(error => {
+    }).catch((error) => {
         alert("Something is Wrong. Please Try Again")
+        console.log(error)
     })
   }
 
@@ -52,13 +55,15 @@ function Login({ setIsAuthenticated }) {
     password2: ''
   })
 
+
+// okay na
   const handleRegistration = () => {
 
     axios.post("accounts/users/", registerData, {
       
     }).then(response => {
 
-      alert("Successfully Registered. Please check your email for confirmation")
+      alert("Successfully Registered. Login")
       console.log(response.registerData);
 
       // empty the data
@@ -72,20 +77,13 @@ function Login({ setIsAuthenticated }) {
 
   }).catch(error => {
     alert("Something is Wrong. Please Try Again")
+    console.log("Naa diri ang error")
     console.log(error)
   })
 
 
   }
-  // Check if the user is already authenticated
-  useEffect(() => {
-    const isAuthenticated = localStorage.getItem('token');
-    if (isAuthenticated) {
-      setIsAuthenticated(true);
-      navigation("/home");
-    }
-  }, [setIsAuthenticated, navigation]);
-
+  
     return (
       <div>
         {show ? (

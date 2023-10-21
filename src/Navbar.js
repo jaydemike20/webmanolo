@@ -1,4 +1,4 @@
-import { Link, useMatch, useResolvedPath } from "react-router-dom";
+import { Link, useMatch, useNavigate, useResolvedPath } from "react-router-dom";
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import HistoryIcon from '@mui/icons-material/History';
@@ -7,9 +7,13 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import React from "react";
 import './index.css'
+import { useDispatch } from "react-redux";
+import { setLogout } from "./login/authSlice";
 
 
 export default function Navbar() {
+  const dispatch = useDispatch()
+  const navigation = useNavigate()
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, bottom: 0 }}>
       <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: 'transparent' }}>
@@ -22,6 +26,8 @@ export default function Navbar() {
         <div style={{ padding: 10 }}>
           <CustomListItem to="/" text="Logout" onclick={() => {
             localStorage.removeItem('token')
+            dispatch(setLogout())
+            navigation('/login')
           }}  icon={<LogoutIcon />} />
         </div>
       </div>
